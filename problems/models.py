@@ -17,3 +17,6 @@ class Problem(models.Model):
     # Statistics
     submissions = models.IntegerField(default=0)
     accpected = models.IntegerField(default=0)
+
+    def __str__(self):
+        return "{}: {}".format(self.problem_id, self.title)

@@ -3,7 +3,7 @@ from django.db import models
 
 class Problem(models.Model):
     # Unchangeable Data
-    problem_id = models.IntegerField()
+    problem_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
     input_format = models.TextField()
@@ -11,8 +11,8 @@ class Problem(models.Model):
     sample_input = models.TextField()
     sample_output = models.TextField()
     hint = models.TextField(blank=True)
-    time_limit = models.FloatField()
-    memory_limit = models.FloatField()
+    time_limit = models.FloatField(default=1.0)
+    memory_limit = models.FloatField(default=256.0)
 
     # Statistics
     submissions = models.IntegerField(default=0)

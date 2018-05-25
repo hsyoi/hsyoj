@@ -1,3 +1,10 @@
 from django.db import models
 
-# Create your models here.
+
+class Record(models.Model):
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    problem = models.ForeignKey(
+        "problems.Problem", on_delete=models.SET_NULL, null=True)
+    code = models.TextField()
+    submit_time = models.DateTimeField()
+    running_time = models.DurationField()

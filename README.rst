@@ -24,6 +24,7 @@ Recommend (No test for older version, but may run as well):
 
 * Python >= 3.6
 * Django >= 2.0
+* docutils >= 0.14
 
 Licence
 =======

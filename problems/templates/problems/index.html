@@ -2,7 +2,7 @@
 <ul>
     {% for problem in problem_list %}
     <li>
-        <a href="/problems/{{ problem.problem_id }}/">{{ problem.title }}</a>
+        <a href="{% url 'problems:detail' problem.problem_id %}">{{ problem.title }}</a>
     </li>
     {% endfor %}
 </ul>

@@ -1,39 +1,44 @@
 ===============
 Data Structures
 ===============
-The data stored in database is also json.
+Data structures stored in database
+are definded in models.py files.
 
-All types of data structures are:
+See Problem, User, Record
+for more information.
 
-* record:
+.. py:class:: Problem
 
-  .. code:: json
+   .. py:attribute:: id
+   .. py:attribute:: title
+   .. py:attribute:: time_limit
+   .. py:attribute:: memory_limit
 
-    {
-      'user': str
-      'submit_time': float
-      'code': str
-      'result': list[result]
-    }
+   .. py:attribute:: submissions
+   .. py:attribute:: accpected
 
-* user:
+   .. py:method:: __str__(self) -> str
 
-  .. code:: json
+      .. code:: python
 
-    {
-      'username': str
-      'password': str
-      'register_time': float
-      'records': list[record]
-    }
+         "%s: %s" % (self.id, self.title)
+.. py:class:: User
 
-* problem
+   .. py:attribute:: username
+   .. py:attribute:: password
+   .. py:attribute:: phone_number
+   .. py:attribute:: email
+   .. py:attribute:: register_time
 
-  .. code:: json
+   .. py:method:: __str__(self) -> str
 
-    {
-      'problem_id': int
-      'time_limit': float
-      'memory_limit': float
-      'optimize': bool
-    }
+      .. code:: python
+
+         "%s: %s" % (self.id, self.username)
+.. py:class:: Record
+
+   .. py:attribute:: user
+   .. py:attribute:: problem
+   .. py:attribute:: code
+   .. py:attribute:: submit_time
+   .. py:attribute:: running_time

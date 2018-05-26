@@ -1,6 +1,6 @@
-===================
-Request For Comment
-===================
+=======
+Summary
+=======
 HSYOJ (Online Judge for NO.1 Middle School Affiliated to CCNU)
 is a lite weight online judge system, which provides a few
 functions such as exploring and committing problems.

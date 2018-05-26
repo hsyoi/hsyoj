@@ -6,8 +6,8 @@ from .models import Problem
 
 
 class IndexView(generic.ListView):
-    template_name = 'index.html'
-    context_object_name = 'latest_question_list'
+    template_name = 'problems/index.html'
+    context_object_name = 'problem_list'
 
     def get_queryset(self):
         return Problem.objects.order_by('problem_id')

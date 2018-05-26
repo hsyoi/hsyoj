@@ -10,13 +10,13 @@ class IndexView(generic.ListView):
     context_object_name = 'problem_list'
 
     def get_queryset(self):
-        return Problem.objects.order_by('problem_id')
+        return Problem.objects.order_by('id')
 
 
-def detail(request, problem_id):
-    with open(f'problems/p/{problem_id}/problem.html') as f:
+def detail(request, id):
+    with open(f'problems/p/{id}/problem.html') as f:
         return HttpResponse(f.read())
 
 
-def records(request, problem_id):
+def records(request, id):
     return HttpResponse("Coming soon!")

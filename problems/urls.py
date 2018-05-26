@@ -5,6 +5,6 @@ from . import views
 app_name = 'problems'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
-    path('<int:problem_id>/', views.detail, name='detail'),
-    path('<int:problem_id>/records', views.records, name='records'),
+    path('<int:id>/', views.detail, name='detail'),
+    path('<int:id>/records', views.records, name='records'),
 ]

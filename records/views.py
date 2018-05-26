@@ -1,5 +1,15 @@
 from django.http import HttpResponse
+from django.views import generic
+from .models import Record
 
-def index(request):
-    return HttpResponse("Records index")
 
+class Index(generic.ListView):
+    template_name = 'records/index.html'
+    context_object_name = 'record_list'
+
+    def get_queryset(self):
+        return Record.objects.order_by('id')
+
+
+def detail(request, id):
+    return HttpResponse("Coming soon!")

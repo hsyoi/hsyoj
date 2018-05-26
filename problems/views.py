@@ -17,5 +17,6 @@ def detail(request, problem_id):
     with open(f'problems/p/{problem_id}/problem.html') as f:
         return HttpResponse(f.read())
 
+
 def records(request, problem_id):
     return HttpResponse("Coming soon!")

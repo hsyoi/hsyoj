@@ -9,7 +9,7 @@ Welcome to HSYOJ's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   rfc/index.rst
+   rfc/index
 
 
 

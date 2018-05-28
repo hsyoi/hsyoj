@@ -7,12 +7,3 @@ Request For Comment
    :glob:
 
    *
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

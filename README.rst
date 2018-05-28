@@ -52,7 +52,9 @@ Getting Start
 
 Contributing
 ============
-Please see file "CONTRIBUTING".
+Please see file "CONTRIBUTING_".
+
+.. _CONTRIBUTING: CONTRIBUTING.rst
 
 Licence
 =======

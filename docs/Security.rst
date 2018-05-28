@@ -10,4 +10,4 @@ It has all following problems:
 * Allow any user to connect
 * Allow any code to be executed
 
-So **always run HSYOJ at a security place** .
+So **always run HSYOJ in a security environment** .

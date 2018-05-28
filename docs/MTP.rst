@@ -1,9 +1,8 @@
 ===============================
 Message Transfer Protocol (MTP)
 ===============================
-HSYOJ uses ZeroMQ to transfer massage.
-
-All massage use json to save the data.
+HSYOJ uses ZeroMQ to transfer data.
+And all data is saved in json.
 
 So the frames is like this: ::
 

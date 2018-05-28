@@ -30,4 +30,4 @@ Examples
 
 Data Range
 ----------
-:math:`a+b<=2^31-1`
+:math:`a+b<=2^{31}-1`

@@ -19,4 +19,3 @@ class ProblemAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Problem, ProblemAdmin)
-admin.site.register(TestCase)

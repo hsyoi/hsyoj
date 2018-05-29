@@ -1,10 +1,14 @@
 from os import path
 
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from docutils.core import publish_string
 
+from records.models import Record
+from users.models import User
+
+from .forms import SubmitForm
 from .models import Problem
 
 
@@ -13,11 +17,11 @@ class IndexView(generic.ListView):
     context_object_name = 'problem_list'
 
     def get_queryset(self):
-        return Problem.objects.order_by('id')
+        return Problem.problems_set.order_by('pk')
 
 
-def detail(request, id):
-    problem = get_object_or_404(Problem, pk=id)
+def detail(request, pk):
+    problem = get_object_or_404(Problem, pk=pk)
     return HttpResponse(
         publish_string(
             source=problem.description,
@@ -26,5 +30,31 @@ def detail(request, id):
     )
 
 
-def records(request, id):
+def records(request, pk):
     return HttpResponse("Coming soon!")
+
+
+def submit(request: HttpRequest, pk):
+    if request.method == 'POST':
+        form = SubmitForm(request.POST)
+        if form.is_valid():
+            # TODO Get user's information ( HOW ??? )
+            # user = User.objects.get(pk=user_id)
+            # record = Record.generate(
+            #     user=user,
+            #     problem=Problem.problems_set.get(pk=pk),
+            #     **form.cleaned_data
+            # )
+            # return HttpResponseRedirect(f"records/{record.pk}")
+            return HttpResponse("Successed.")
+        else:
+            return HttpResponse("Failed. Please try again.")
+    else:
+        return render(
+            request,
+            'problems/submit.html',
+            {
+                'form': SubmitForm(),
+                'problem_id': pk,
+            }
+        )

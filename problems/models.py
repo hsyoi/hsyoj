@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Problem(models.Model):
+    problems_set = models.Manager()
     # Problem's config
     title = models.CharField(max_length=128, unique=True)
     time_limit = models.FloatField(default=1.0)
@@ -13,7 +14,7 @@ class Problem(models.Model):
     accpected = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.id}: {self.title}"
+        return f"{self.pk}: {self.title}"
 
 
 class TestCase(models.Model):
@@ -22,4 +23,4 @@ class TestCase(models.Model):
     answer_content = models.TextField(blank=False)
 
     def __str__(self):
-        return f"{self.problem.title}"
+        return ""

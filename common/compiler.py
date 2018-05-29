@@ -6,6 +6,11 @@ import shlex
 import subprocess
 import tempfile
 
+SUPPORTED_LANGUAGE = (
+    ('c', 'C'),
+    ('cpp', 'C++'),
+)
+
 
 class CompileResult(enum.Enum):
     CE = -1  # CompileError
@@ -65,4 +70,4 @@ def get_compiler(language: str=None) -> Compiler:
         return CCompiler()
     if language in ('.cpp', '.cc', '.cxx', 'cpp'):
         return CppCompiler()
-    return Compiler()
+    raise NotImplementedError(f"Language {str} has not been implemented.")

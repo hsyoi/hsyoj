@@ -22,4 +22,4 @@ class TestCase(models.Model):
     answer_content = models.TextField(blank=False)
 
     def __str__(self):
-        return f"{self.problem.title}: {self.id}"
+        return f"{self.problem.title}"

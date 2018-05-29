@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.views import generic
+
 from .models import Record
 
 
@@ -11,5 +12,5 @@ class Index(generic.ListView):
         return Record.objects.order_by('id')
 
 
-def detail(request, id):
+def detail(request, pk):
     return HttpResponse("Coming soon!")

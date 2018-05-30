@@ -6,8 +6,8 @@ from common.compiler import SUPPORTED_LANGUAGE
 class Record(models.Model):
     records_set = models.Manager()
 
-    user = models.ForeignKey(
-        "users.User", on_delete=models.CASCADE, editable=False)
+    # user = models.ForeignKey(
+    #     "User", on_delete=models.CASCADE, editable=False)
     problem = models.ForeignKey(
         "problems.Problem", on_delete=models.SET_NULL, null=True, editable=False)
     language = models.CharField(

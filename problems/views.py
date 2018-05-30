@@ -6,7 +6,6 @@ from django.views import generic
 from docutils.core import publish_string
 
 from records.models import Record
-from users.models import User
 
 from .forms import SubmitForm
 from .models import Problem

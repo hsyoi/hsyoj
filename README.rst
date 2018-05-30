@@ -18,8 +18,8 @@ Recommend (No test for older version, but may run as well):
 * Django >= 2.0
 * Sphinx >= 1.7
 
-Getting Start
-=============
+Getting Started
+===============
 0. Install Git_ and Python_,
    see the websites for more information.
 

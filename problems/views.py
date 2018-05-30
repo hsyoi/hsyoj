@@ -1,6 +1,4 @@
-from os import path
-
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from docutils.core import publish_string
@@ -46,14 +44,12 @@ def submit(request: HttpRequest, pk):
             # )
             # return HttpResponseRedirect(f"records/{record.pk}")
             return HttpResponse("Successed.")
-        else:
-            return HttpResponse("Failed. Please try again.")
-    else:
-        return render(
-            request,
-            'problems/submit.html',
-            {
-                'form': SubmitForm(),
-                'problem_id': pk,
-            }
-        )
+        return HttpResponse("Failed. Please try again.")
+    return render(
+        request,
+        'problems/submit.html',
+        {
+            'form': SubmitForm(),
+            'problem_id': pk,
+        }
+    )

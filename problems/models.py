@@ -8,6 +8,8 @@ class Problem(models.Model):
     time_limit = models.FloatField(default=1.0)
     memory_limit = models.FloatField(default=256.0)
     description = models.TextField()
+    provider = models.ForeignKey(
+        'users.User', on_delete=models.SET_NULL, null=True)
 
     # Statistics
     submissions = models.IntegerField(default=0)

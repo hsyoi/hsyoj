@@ -6,8 +6,8 @@ from common.compiler import SUPPORTED_LANGUAGE
 class Record(models.Model):
     records_set = models.Manager()
 
-    # user = models.ForeignKey(
-    #     "User", on_delete=models.CASCADE, editable=False)
+    user = models.ForeignKey(
+        "users.User", on_delete=models.CASCADE, editable=False)
     problem = models.ForeignKey(
         "problems.Problem", on_delete=models.SET_NULL, null=True, editable=False)
     language = models.CharField(
@@ -15,6 +15,11 @@ class Record(models.Model):
     code = models.TextField(editable=False)
     submit_time = models.DateTimeField(auto_now_add=True, editable=False)
     running_time = models.DurationField(editable=False)
+
+    class Meta:
+        permissions = (
+            ('view_record', "View all records."),
+        )
 
     @staticmethod
     def generate(user, problem, language, code):

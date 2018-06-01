@@ -6,7 +6,7 @@ will be fixed in the future.
 
 It has all following problems:
 
-* All the data is unencrypted
+* All the data is not encrypted
 * Allow any user to connect
 * Allow any code to be executed
 

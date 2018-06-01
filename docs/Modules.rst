@@ -1,8 +1,6 @@
 =======
 Modules
 =======
-Modules Structure
-=================
 HSYOJ is consisted of these modules:
 
 * hsyoj-server
@@ -20,8 +18,6 @@ HSYOJ is consisted of these modules:
 +--------------+
 
 
-Modules Functions
-=================
 hsyoj-server
 ------------
 hsyoj-server is a message queue.
@@ -80,3 +76,15 @@ All functions include:
 * An interface to compile any supported program language to an executable file
 * Judge code and return the results
 * Define all error status
+
+common.judge
+~~~~~~~~~~~~
+
+  .. automodule:: common.judge
+     :members:
+
+common.compiler
+~~~~~~~~~~~~~~~
+
+  .. automodule:: common.compiler
+     :members:

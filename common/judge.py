@@ -1,4 +1,4 @@
-"""Functions to run the program and check the answer."""
+"""Provide functions to judge the code."""
 import difflib
 import enum
 import os
@@ -6,7 +6,7 @@ import shutil
 import subprocess
 import tempfile
 
-from .compiler import get_compiler
+from .compiler import SUPPORTED_LANGUAGE_SUFFIXES, get_compiler
 
 
 class JudgeResult(enum.Enum):
@@ -23,11 +23,11 @@ class JudgeResult(enum.Enum):
 def diff_bytes(bytes1: bytes, bytes2: bytes) -> bool:
     """Diff two bytes just like diff command.
 
-    The function ignore empty line at the end of file
-    and space at the end of lines.
+    The function ignore empty lines at the end of file
+    and spaces at the end of lines.
 
-    Return True if two bytes are different,
-    return False if they are the same.
+    Return `True` when two bytes are different,
+    return `False` if they are the same.
     """
     differ = difflib.Differ()
     return not all(
@@ -53,52 +53,48 @@ def judge(source_code: str,
           ):
     """Judge the source code.
 
-    It is not recommended for using stdio instead of file IO.
-    The program maybe report TLE wrongly because of OS buffers.
+    Using stdio instead of file IO is not recommended because it may cause
+    TLE by OS buffers.
 
-    Arguments:
 
-    source_code: The source code.
-    language_suffix: One of '.c', '.cpp', etc.
-    test_cases: A list of tuples of input content and answer.
-                For example, in 'A+B Problem', [('13 5', '18'), ('1 2', '3')].
-    input_file_name: 'a+b.in'
-    output_file_name: 'a+b.out'
-    time_limit: seconds
-    memory_limit: Mb
-    stdio_flag: Ehether use stdio
-    optimize_flag: Whether use optimize
+    Arguments
+
+    :source_code: The source code
+    :language_suffix: One of '.c', '.cpp', etc
+    :test_cases: A list of tuples of input content and answer.
+                 For example, in 'A+B Problem', [('13 5', '18'), ('1 2', '3')].
+    :input_file_name: 'a+b.in'
+    :output_file_name: 'a+b.out'
+    :time_limit: seconds
+    :memory_limit: Mb
+    :stdio_flag: Whether use stdio
+    :optimize_flag: Whether use optimize
     """
-    judge_results = []
-
     try:
-        compiler = _get_compiler_by_suffix(
-            language_suffix
-        )
         compiled_file = _compile_source_code(
-            compiler=compiler,
+            compiler=_get_compiler_by_suffix(
+                language_suffix
+            ),
             source_code=source_code,
             optimize_flag=optimize_flag
         )
 
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError):
-        judge_results.append(JudgeResult.CE)
+        return [JudgeResult.CE]
 
     else:
-        for test_case in test_cases:
-            judge_results.append(
-                _judge_test_case(
-                    test_case=test_case,
-                    compiled_file=compiled_file,
-                    input_file_name=input_file_name,
-                    output_file_name=output_file_name,
-                    time_limit=time_limit,
-                    memory_limit=memory_limit,
-                    stdio_flag=stdio_flag,
-                )
+        return [
+            _judge_test_case(
+                test_case=test_case,
+                compiled_file=compiled_file,
+                input_file_name=input_file_name,
+                output_file_name=output_file_name,
+                time_limit=time_limit,
+                memory_limit=memory_limit,
+                stdio_flag=stdio_flag,
             )
-
-    return judge_results
+            for test_case in test_cases
+        ]
 
 
 def _compile_source_code(compiler, source_code, optimize_flag):
@@ -203,9 +199,7 @@ def _compare_output_file_and_answer(output_file, answer):
 
 
 def _get_compiler_by_suffix(suffix: str):
-    if suffix in ('.c', ):
-        return get_compiler('gcc')
-    elif suffix in ('.cpp', '.cc', '.cxx'):
-        return get_compiler('g++')
-    else:
-        raise NotImplementedError("Language not supported.")
+    for compiler, language_suffixes in SUPPORTED_LANGUAGE_SUFFIXES.items():
+        if suffix in language_suffixes:
+            return get_compiler(compiler)
+    raise NotImplementedError("Language not supported.")

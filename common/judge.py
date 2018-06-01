@@ -72,26 +72,31 @@ def judge(source_code: str,
     judge_results = []
 
     try:
-        compiler = _get_compiler_by_suffix(language_suffix)
-        compiled_file = _compile_source_code(compiler=compiler,
-                                             source_code=source_code,
-                                             optimize_flag=optimize_flag
-                                             )
+        compiler = _get_compiler_by_suffix(
+            language_suffix
+        )
+        compiled_file = _compile_source_code(
+            compiler=compiler,
+            source_code=source_code,
+            optimize_flag=optimize_flag
+        )
 
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError):
         judge_results.append(JudgeResult.CE)
 
     else:
         for test_case in test_cases:
-            test_result = _judge_test_case(test_case=test_case,
-                                           compiled_file=compiled_file,
-                                           input_file_name=input_file_name,
-                                           output_file_name=output_file_name,
-                                           time_limit=time_limit,
-                                           memory_limit=memory_limit,
-                                           stdio_flag=stdio_flag,
-                                           )
-            judge_results.append(test_result)
+            judge_results.append(
+                _judge_test_case(
+                    test_case=test_case,
+                    compiled_file=compiled_file,
+                    input_file_name=input_file_name,
+                    output_file_name=output_file_name,
+                    time_limit=time_limit,
+                    memory_limit=memory_limit,
+                    stdio_flag=stdio_flag,
+                )
+            )
 
     return judge_results
 
@@ -120,27 +125,30 @@ def _judge_test_case(test_case,
     with tempfile.TemporaryDirectory() as workspace:
         input_content, answer = test_case
         input_file, output_file, executing_file = \
-            _prepare_running_workspace(workspace=workspace,
-                                       compiled_file=compiled_file,
-                                       input_content=input_content,
-                                       input_file_name=input_file_name,
-                                       output_file_name=output_file_name
-                                       )
+            _prepare_running_workspace(
+                workspace=workspace,
+                compiled_file=compiled_file,
+                input_content=input_content,
+                input_file_name=input_file_name,
+                output_file_name=output_file_name
+            )
 
-        result = _execute_program(stdio_flag,
-                                  executing_file=executing_file,
-                                  input_file=input_file,
-                                  output_file=output_file,
-                                  time_limit=time_limit,
-                                  memory_limit=memory_limit,
-                                  )
+        result = _execute_program(
+            stdio_flag,
+            executing_file=executing_file,
+            input_file=input_file,
+            output_file=output_file,
+            time_limit=time_limit,
+            memory_limit=memory_limit,
+        )
 
         if result is not None:
             return result
 
-        return _compare_output_file_and_answer(output_file=output_file,
-                                               answer=answer
-                                               )
+        return _compare_output_file_and_answer(
+            output_file=output_file,
+            answer=answer
+        )
 
 
 def _prepare_running_workspace(workspace,

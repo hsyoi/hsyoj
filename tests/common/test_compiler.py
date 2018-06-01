@@ -4,7 +4,7 @@ import subprocess
 import tempfile
 import unittest
 
-from common.compiler import CompileResult, get_compiler
+from common.compiler import get_compiler
 from common.judge import diff_bytes
 
 
@@ -14,7 +14,7 @@ class CompilerTest(unittest.TestCase):
         cls.skipTest(cls, "Base test case")
 
     def test_compile_source_code(self):
-        compile_result = self.compiler.compile_source_code_to(
+        self.compiler.compile_source_code_to(
             self.source_code,
             self.executing_file
         )
@@ -50,10 +50,11 @@ class CompilerTest(unittest.TestCase):
         )
 
     def test_compile_error(self):
-        assert self.compiler.compile_source_file_to(
-            self.compile_error_source_file,
-            self.executing_file
-        ) is CompileResult.CE
+        with self.assertRaises(subprocess.CalledProcessError):
+            self.compiler.compile_source_file_to(
+                self.compile_error_source_file,
+                self.executing_file
+            )
 
 
 class CCompilerTest(CompilerTest):

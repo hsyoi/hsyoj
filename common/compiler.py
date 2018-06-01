@@ -1,15 +1,10 @@
 """Compiler for any code."""
-import enum
 import importlib
 
 SUPPORTED_COMPILERS = (
     ('gcc', 'C(gcc)'),
     ('g++', 'C++(g++)'),
 )
-
-
-class CompileResult(enum.Enum):
-    CE = -1  # CompileError
 
 
 _compilers_alias = {

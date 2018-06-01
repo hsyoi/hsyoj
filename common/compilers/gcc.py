@@ -3,8 +3,6 @@ import os
 import subprocess
 import tempfile
 
-from ..compiler import CompileResult
-
 CompileCommand = "gcc {source} -o {target} -lm {optimize}"
 
 
@@ -27,14 +25,9 @@ def compile_source_file_to(
         target=target_file,
         optimize='-O2' if optimize_flag else '',
     )
-    try:
-        subprocess.run(
-            compile_command,
-            timeout=5.0,
-            check=True,
-            shell=True
-        )
-    except subprocess.TimeoutExpired:
-        return CompileResult.CE
-    except subprocess.CalledProcessError:
-        return CompileResult.CE
+    subprocess.run(
+        compile_command,
+        timeout=5.0,
+        check=True,
+        shell=True
+    )

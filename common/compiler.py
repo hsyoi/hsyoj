@@ -1,14 +1,10 @@
 """Compiler for any code."""
-import abc
 import enum
-import os
-import shlex
-import subprocess
-import tempfile
+import importlib
 
-SUPPORTED_LANGUAGE = (
-    ('c', 'C'),
-    ('cpp', 'C++'),
+SUPPORTED_COMPILERS = (
+    ('gcc', 'C(gcc)'),
+    ('g++', 'C++(g++)'),
 )
 
 
@@ -16,58 +12,25 @@ class CompileResult(enum.Enum):
     CE = -1  # CompileError
 
 
-class Compiler:
-    """Common compiler for all languages."""
-    SUFFIX = ''
-    COMMAND = ""
-
-    def __init__(self):
-        self.command = self.COMMAND
-
-    def compile_code(self, code: str, target: str, **kwargs):
-        """Compile source code to target."""
-        source_file = tempfile.NamedTemporaryFile(
-            suffix=self.SUFFIX, mode='wt', delete=False)
-        source_file.write(code)
-        source_file.close()
-        res = self.compile_file(source_file.name, target, **kwargs)
-        os.remove(source_file.name)
-        return res
-
-    def compile_file(self, source, target, **kwargs):
-        """Compile source file to target."""
-        self.command = shlex.split(
-            self.COMMAND.format(source=source, target=target))
-        if kwargs.get('O2', False):
-            self.command.append("-O2")
-        return self.run()
-
-    def run(self):
-        """Start to compile the source."""
-        try:
-            subprocess.run(self.command, check=True, timeout=10)
-        except subprocess.CalledProcessError:
-            return CompileResult.CE
-        except subprocess.TimeoutExpired:
-            return CompileResult.CE
-        return 0
+_compilers_alias = {
+    'g++': 'gpp',
+}
 
 
-class CCompiler(Compiler):
-    """C Compiler."""
-    SUFFIX = '.c'
-    COMMAND = "g++ {source} -o {target} -lm"
+def get_compiler(compiler: str):
+    """Get compiler for 'compiler'.
 
-
-class CppCompiler(Compiler):
-    """Cpp Compiler."""
-    SUFFIX = '.cpp'
-    COMMAND = "g++ {source} -o {target} -lm"
-
-
-def get_compiler(language: str=None) -> Compiler:
-    if language in ('.c', 'c'):
-        return CCompiler()
-    if language in ('.cpp', '.cc', '.cxx', 'cpp'):
-        return CppCompiler()
-    raise NotImplementedError(f"Language {str} has not been implemented.")
+    `compiler` should be the name of the compiler.
+    For example, use `get_compiler('gcc')` but not
+    `get_compiler('c')`.
+    """
+    try:
+        compiler = _compilers_alias.get(compiler, compiler)
+        return importlib.import_module(
+            '.' + compiler,
+            'common.compilers'
+        )
+    except ImportError:
+        raise NotImplementedError(
+            f"Compiler {compiler} is not supported."
+        )

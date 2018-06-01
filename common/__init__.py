@@ -1,1 +1,1 @@
-"""Common data structure of HSYOJ"""
+"""Common data structure of HSYOJ."""

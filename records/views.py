@@ -9,7 +9,7 @@ class Index(generic.ListView):
     context_object_name = 'record_list'
 
     def get_queryset(self):
-        return Record.records_set.order_by('id')
+        return Record.records_set.order_by('submit_time')
 
 
 def detail(request, pk):

@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Problem(models.Model):
-    problems_set = models.Manager()
+    problem_set = models.Manager()
 
     # Problem's config
     title = models.CharField(max_length=128, unique=True)

@@ -14,7 +14,7 @@ class IndexView(generic.ListView):
     context_object_name = 'problem_list'
 
     def get_queryset(self):
-        return Problem.problems_set.order_by('pk')
+        return Problem.problem_set.order_by('pk')
 
 
 def detail(request, pk):
@@ -22,7 +22,7 @@ def detail(request, pk):
     return HttpResponse(
         publish_string(
             source=problem.description,
-            writer_name='html'
+            writer_name='html',
         )
     )
 
@@ -40,7 +40,7 @@ def submit(request: HttpRequest, pk):
             # user = User.objects.get(pk=user_id)
             # record = Record.generate(
             #     user=user,
-            #     problem=Problem.problems_set.get(pk=pk),
+            #     problem=Problem.problem_set.get(pk=pk),
             #     **form.cleaned_data
             # )
             # return HttpResponseRedirect(f"records/{record.pk}")

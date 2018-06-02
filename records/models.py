@@ -39,19 +39,25 @@ class Record(models.Model):
             ('view_all_records', "View all records."),
         )
 
-    # TODO Rewrite this method
     @classmethod
     def generate(cls, user, problem, compiler, source_code):
+        """Generate record from problem and source code."""
         user = None  # TODO Get a user and save it?
-        judge_arguments = problem.get_problem_config()
-        judge_arguments['source_code'] = source_code
-        judge_arguments['language_suffix'] = \
-            SUPPORTED_LANGUAGE_SUFFIXES[compiler][0]
-        judge_results = judge(**judge_arguments)
-        assert judge_results, "Error, judge results should never be empty."
 
-        accepted_flag = all(
-            map(lambda result: result.value == 0, judge_results))
+        def get_judge_config():
+            result = problem.get_problem_config()
+            result['source_code'] = source_code
+            result['language_suffix'] = \
+                SUPPORTED_LANGUAGE_SUFFIXES[compiler][0]
+            return result
+
+        judge_results = judge(**get_judge_config())
+
+        # The result of judge() should never be empty
+        # So the following code should be safety
+        assert judge_results != []
+
+        accepted_flag = all([result.value == 0 for result in judge_results])
 
         record = cls.record_set.create(
             user=user,
@@ -64,16 +70,18 @@ class Record(models.Model):
             # memory_cost = models. ...
         )
 
-        if judge_results[0] is not JudgeResult.CE:
-            for judge_result, test_case in zip(judge_results,
-                                               problem.testcase_set.all()
-                                               ):
-                record.testcaseresult_set.create(
-                    result_code=judge_result.value,
-                    test_case=test_case,
-                )
+        record._add_result_for_per_test_case(problem, judge_results)
 
         return record
+
+    def _add_result_for_per_test_case(self, problem, results):
+        if results[0] is JudgeResult.CE:
+            return
+        for result, case in zip(results, problem.testcase_set.all()):
+            self.testcaseresult_set.create(
+                result_code=result.value,
+                test_case=case,
+            )
 
     def get_result(self) -> JudgeResult:
         if self.is_accepted():

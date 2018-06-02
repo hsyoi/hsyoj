@@ -12,8 +12,8 @@ from .compiler import SUPPORTED_LANGUAGE_SUFFIXES, get_compiler
 class JudgeResult(enum.Enum):
     """All judge results."""
 
-    CE = -1  # CompileError
-    AC = 0  # Accept
+    CE = -1  # CompilationError
+    AC = 0  # Accepted
     WA = 1  # WrongAnswer
     TLE = 2  # TimeLimitExceeded
     RE = 3  # RuntimeError

@@ -69,6 +69,11 @@ def judge(source_code: str,
     :memory_limit: Mb
     :stdio_flag: Whether use stdio
     :optimize_flag: Whether use optimize
+
+    Returned:
+
+      Return a list of judge result.
+      [JudgeResult.AC, JudgeResult.AC, ...]
     """
     try:
         compiled_file = _compile_source_code(
@@ -92,8 +97,7 @@ def judge(source_code: str,
                 time_limit=time_limit,
                 memory_limit=memory_limit,
                 stdio_flag=stdio_flag,
-            )
-            for test_case in test_cases
+            ) for test_case in test_cases
         ]
 
 

@@ -28,6 +28,7 @@ def detail(request, pk):
 
 
 def records(request, pk):
+    # TODO
     return HttpResponse("Coming soon!")
 
 

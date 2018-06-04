@@ -8,6 +8,6 @@ setup(
     license='AGPLv3',
     author='hr567',
     author_email='hr567q@163.com',
-    requires=['Django'],
+    requires=['Django', 'docutils'],
     description='Online Judge for NO.1 Middle School Affiliated to CCNU',
 )

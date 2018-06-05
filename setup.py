@@ -4,7 +4,7 @@ setup(
     name='hsyoj',
     version='0.0.1',
     packages=[],
-    url='https://gitlab.com/hsyoj/hsyoj',
+    url='https://gitlab.com/hsyoi/hsyoj',
     license='AGPLv3',
     author='hr567',
     author_email='hr567q@163.com',

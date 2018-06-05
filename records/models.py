@@ -70,23 +70,28 @@ class Record(models.Model):
             # memory_cost = models. ...
         )
 
-        record._add_result_for_per_test_case(problem, judge_results)
+        # Add result for per test_case
+        if judge_results[0] is JudgeResult.CE:
+            record.testcaseresult_set.create(
+                result_code=JudgeResult.CE.value,
+                test_case=None,
+            )
+        else:
+            for result, case in zip(
+                judge_results,
+                problem.testcase_set.all()
+            ):
+                record.testcaseresult_set.create(
+                    result_code=result.value,
+                    test_case=case,
+                )
 
         return record
-
-    def _add_result_for_per_test_case(self, problem, results):
-        if results[0] is JudgeResult.CE:
-            return
-        for result, case in zip(results, problem.testcase_set.all()):
-            self.testcaseresult_set.create(
-                result_code=result.value,
-                test_case=case,
-            )
 
     def get_result(self) -> JudgeResult:
         if self.is_accepted():
             return JudgeResult.AC
-        for result in self.testcaseresult_set:
+        for result in self.testcaseresult_set.all():
             if result.result_code != 0:
                 return JudgeResult(result.result_code)
 
@@ -105,5 +110,6 @@ class TestCaseResult(models.Model):
     record = models.ForeignKey(Record, on_delete=models.CASCADE)
     test_case = models.ForeignKey(
         "problems.TestCase",
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True,
     )

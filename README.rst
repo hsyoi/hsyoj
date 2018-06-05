@@ -3,7 +3,7 @@ HSYOJ
 =====
 Online Judge for NO.1 Middle School Affiliated to CCNU
 
-:Website: https://gitlab.com/hsyoj/hsyoj
+:Website: https://gitlab.com/hsyoi/hsyoj
 
 Status
 ======

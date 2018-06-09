@@ -23,8 +23,8 @@ Getting Started
 0. Install Git_ and Python_,
    see the websites for more information.
 
-   .. _Git: git-scm.com
-   .. _Python: www.python.org
+   .. _Git: https://git-scm.com
+   .. _Python: https://www.python.org
 #. Clone this repository
 
    `$ git clone "https://gitlab.com/hsyoj/hsyoj.git"`

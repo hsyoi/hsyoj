@@ -45,7 +45,7 @@ Getting Started
 
    To import the sample problems:
 
-   `$ python manage.py loaddata problems`
+   `$ python manage.py loaddata fixture.json`
 #. Run the server
 
    `$ python manage.py runserver`

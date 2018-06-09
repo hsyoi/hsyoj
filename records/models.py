@@ -2,8 +2,8 @@ import uuid
 
 from django.db import models
 
-from common.compiler import SUPPORTED_COMPILERS, SUPPORTED_LANGUAGE_SUFFIXES
-from common.judge import JudgeResult, judge
+from common.compiler import SUPPORTED_COMPILERS
+from common.judge import JudgeResult
 
 
 class Record(models.Model):
@@ -38,55 +38,6 @@ class Record(models.Model):
         permissions = (
             ('view_all_records', "View all records."),
         )
-
-    @classmethod
-    def generate(cls, user, problem, compiler, source_code):
-        """Generate record from problem and source code."""
-        user = None  # TODO Get a user and save it?
-
-        def get_judge_config():
-            result = problem.get_problem_config()
-            result['source_code'] = source_code
-            result['language_suffix'] = \
-                SUPPORTED_LANGUAGE_SUFFIXES[compiler][0]
-            return result
-
-        judge_results = judge(**get_judge_config())
-
-        # The result of judge() should never be empty
-        # So the following code should be safety
-        assert judge_results != []
-
-        accepted_flag = all([result.value == 0 for result in judge_results])
-
-        record = cls.record_set.create(
-            user=user,
-            problem=problem,
-            compiler=compiler,
-            source_code=source_code,
-            accepted_flag=accepted_flag,
-            # TODO Add running time and memory cost
-            # running_time = models.DurationField(editable=False)
-            # memory_cost = models. ...
-        )
-
-        # Add result for per test_case
-        if judge_results[0] is JudgeResult.CE:
-            record.testcaseresult_set.create(
-                result_code=JudgeResult.CE.value,
-                test_case=None,
-            )
-        else:
-            for result, case in zip(
-                judge_results,
-                problem.testcase_set.all()
-            ):
-                record.testcaseresult_set.create(
-                    result_code=result.value,
-                    test_case=case,
-                )
-
-        return record
 
     def get_result(self) -> JudgeResult:
         if self.is_accepted():

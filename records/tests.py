@@ -3,7 +3,7 @@ from django.test import TestCase
 from common.judge import JudgeResult
 from problems.models import Problem
 
-from .models import Record
+from .generator import generate
 
 
 class RecordTest(TestCase):
@@ -34,7 +34,7 @@ class RecordTest(TestCase):
         compiler = 'gcc'
 
         # Generate Record
-        cls.record = Record.generate(
+        cls.record = generate(
             user=None,
             problem=cls.example_problem,
             compiler=compiler,
@@ -81,7 +81,7 @@ class CompilationErrorRecordTest(TestCase):
         compiler = 'g++'
 
         # Generate Record
-        cls.record = Record.generate(
+        cls.record = generate(
             user=None,
             problem=cls.example_problem,
             compiler=compiler,

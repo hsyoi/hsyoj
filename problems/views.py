@@ -1,9 +1,10 @@
-from django.http import HttpRequest, HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from docutils.core import publish_string
 
-from records.models import Record
+from records.generator import generate_record
 
 from .forms import SubmitForm
 from .models import Problem
@@ -32,25 +33,23 @@ def records(request, pk):
     return HttpResponse("Coming soon!")
 
 
+@login_required
 def submit(request: HttpRequest, pk):
     if request.method == 'POST':
         form = SubmitForm(request.POST)
         if form.is_valid():
-            # TODO Get user's information ( HOW ??? )
-            # user = User.objects.get(pk=user_id)
-            # record = Record.generate(
-            #     user=user,
-            #     problem=Problem.problem_set.get(pk=pk),
-            #     **form.cleaned_data
-            # )
-            # return HttpResponseRedirect(f"records/{record.pk}")
-            return HttpResponse("Successed.")
+            record = generate_record(
+                user=request.user,
+                problem=Problem.problem_set.get(pk=pk),
+                **form.cleaned_data,
+            )
+            return HttpResponseRedirect(f"records/{record.pk}")
         return HttpResponse("Failed. Please try again.")
     return render(
         request,
         'problems/submit.html',
         {
-            'form': SubmitForm(),
             'problem_id': pk,
+            'form': SubmitForm(),
         }
     )

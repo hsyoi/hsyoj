@@ -61,6 +61,6 @@ class TestCaseResult(models.Model):
     record = models.ForeignKey(Record, on_delete=models.CASCADE)
     test_case = models.ForeignKey(
         "problems.TestCase",
-        on_delete=models.CASCADE,
-        null=True,
+        on_delete=models.SET_NULL,
+        null=True,  # set test_case to null when result is CE
     )

@@ -4,10 +4,8 @@ from common.judge import JudgeResult, judge
 from .models import Record
 
 
-def generate(user, problem, compiler, source_code):
+def generate_record(user, problem, compiler, source_code):
     """Generate record from problem and source code."""
-    user = None  # TODO Get a user and save it?
-
     judge_results = judge(
         **_generate_problem_config(
             problem=problem, compiler=compiler, source_code=source_code
@@ -30,11 +28,13 @@ def generate(user, problem, compiler, source_code):
         # running_time = models.DurationField(editable=False)
         # memory_cost = models. ...
     )
+    record.save()
 
     # Add result for per test_case
     if judge_results[0] is JudgeResult.CE:
         _add_ce_result(record)
     else:
+        assert len(judge_results) == problem.testcase_set.count()
         _add_results(record, judge_results, problem.testcase_set.all())
 
     return record

@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.views import generic
-
 
 from .models import Record
 
@@ -16,8 +16,8 @@ class Index(generic.ListView):
 
 @login_required
 def detail(request, pk):
+    record = get_object_or_404(Record, pk=pk)
     user = request.user
-    if user.has_perm('record.view_all_records'):
-        record = Record.record_set.get(pk=pk)
+    if user.can_view_record(record):
         return HttpResponse(record)
     return HttpResponse("No Permission.")

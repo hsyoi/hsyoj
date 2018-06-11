@@ -9,6 +9,6 @@ def index(request):
 @login_required
 def detail(request: HttpRequest, pk: int):
     user = request.user
-    if user.pk == pk:
-        return HttpResponse(f"You are {user.username}.")
+    if user.pk == pk or user.has_perm('user.view_all_users'):
+        return HttpResponse(user)
     return HttpResponse("No Permission.")

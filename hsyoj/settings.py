@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'problems.apps.ProblemsConfig',
     'records.apps.RecordsConfig',
     'users.apps.UsersConfig',
+    'communicator.apps.CommunicatorConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

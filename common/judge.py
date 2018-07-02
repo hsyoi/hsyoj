@@ -88,7 +88,7 @@ def judge(source_code: str,
         return [JudgeResult.CE]
 
     else:
-        return [
+        result = [
             _judge_test_case(
                 test_case=test_case,
                 compiled_file=compiled_file,
@@ -99,6 +99,10 @@ def judge(source_code: str,
                 stdio_flag=stdio_flag,
             ) for test_case in test_cases
         ]
+
+        os.remove(compiled_file)
+
+        return result
 
 
 def _compile_source_code(compiler, source_code, optimize_flag):

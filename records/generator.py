@@ -1,7 +1,11 @@
 from common.compiler import SUPPORTED_LANGUAGE_SUFFIXES
-from common.judge import JudgeResult, judge
+from common.judge import JudgeResult, _judge
 
 from .models import Record
+
+# TODO Move generation work to other place
+# TODO Use task class rewrite this module
+judge = _judge
 
 
 def generate_record(user, problem, compiler, source_code):

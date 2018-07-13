@@ -1,8 +1,13 @@
+import logging
+
 from django.apps import AppConfig
 
+logger = logging.getLogger(__name__)
 
-def start_message_queue():
-    pass
+
+def start_communicator():
+    # TODO Start communicator
+    logger.debug("Message queue started.")
 
 
 class CommunicatorConfig(AppConfig):
@@ -10,4 +15,4 @@ class CommunicatorConfig(AppConfig):
 
     @staticmethod
     def ready():
-        start_message_queue()
+        start_communicator()

@@ -7,7 +7,6 @@ import subprocess
 import tempfile
 
 from .compiler import SUPPORTED_LANGUAGE_SUFFIXES, get_compiler
-from .task import Task
 
 
 class JudgeResult(enum.Enum):
@@ -42,19 +41,15 @@ def diff_bytes(bytes1: bytes, bytes2: bytes) -> bool:
     )
 
 
-def judge(task: Task):
-    return _judge(**task.task)
-
-
-def _judge(source_code: str,
-           language_suffix: str,
-           test_cases: tuple,
-           input_file_name: str,
-           output_file_name: str,
-           time_limit: float = 1.0,
-           memory_limit: float = 256.0,
-           stdio_flag: bool = False,
-           optimize_flag: bool = False):
+def judge(source_code: str,
+          language_suffix: str,
+          test_cases: list,
+          input_file_name: str,
+          output_file_name: str,
+          time_limit: float = 1.0,
+          memory_limit: float = 256.0,
+          stdio_flag: bool = False,
+          optimize_flag: bool = False):
     """Judge the source code.
 
     Using stdio instead of file IO is not recommended because it may cause
@@ -128,8 +123,7 @@ def _judge_test_case(test_case,
                      output_file_name,
                      time_limit,
                      memory_limit,
-                     stdio_flag,
-                     ):
+                     stdio_flag):
     with tempfile.TemporaryDirectory() as workspace:
         input_content, answer = test_case
         input_file, output_file, executing_file = \
@@ -163,8 +157,7 @@ def _prepare_running_workspace(workspace,
                                compiled_file,
                                input_content,
                                input_file_name,
-                               output_file_name
-                               ):
+                               output_file_name):
     input_file = os.path.join(workspace, input_file_name)
     output_file = os.path.join(workspace, output_file_name)
     executing_file = os.path.join(

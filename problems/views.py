@@ -1,10 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from docutils.core import publish_string
-
-from records.generator import generate_record
 
 from .forms import SubmitForm
 from .models import Problem
@@ -38,12 +36,8 @@ def submit(request: HttpRequest, pk):
     if request.method == 'POST':
         form = SubmitForm(request.POST)
         if form.is_valid():
-            record = generate_record(
-                user=request.user,
-                problem=Problem.problem_set.get(pk=pk),
-                **form.cleaned_data,
-            )
-            return HttpResponseRedirect(f"records/{record.pk}")
+            raise NotImplementedError
+            # return HttpResponseRedirect(f"records/{record.pk}")
         return HttpResponse("Failed. Please try again.")
     return render(
         request,

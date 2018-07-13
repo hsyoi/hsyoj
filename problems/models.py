@@ -25,10 +25,10 @@ class Problem(models.Model):
         result = {
             'input_file_name': self.input_file_name,
             'output_file_name': self.output_file_name,
-            'test_cases': {
-                (tc.input_content, tc.answer_content)
+            'test_cases': [
+                [tc.input_content, tc.answer_content]
                 for tc in self.testcase_set.all()
-            },
+            ],
             'time_limit': self.time_limit,
             'memory_limit': self.memory_limit,
             'stdio_flag': self.stdio_flag,

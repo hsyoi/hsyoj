@@ -1,3 +1,4 @@
+docutils
 Django>=2.0
 Sphinx>=1.7
 pyzmq>=17.0

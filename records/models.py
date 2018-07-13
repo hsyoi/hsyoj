@@ -30,6 +30,7 @@ class Record(models.Model):
     accepted_flag = models.BooleanField(editable=False)
     source_code = models.TextField(editable=False)
     submit_time = models.DateTimeField(auto_now_add=True, editable=False)
+
     # TODO Add running time and memory cost
     # running_time = models.DurationField(editable=False)
     # memory_cost = models. ...
@@ -46,11 +47,15 @@ class Record(models.Model):
             if result.result_code != 0:
                 return JudgeResult(result.result_code)
 
-        raise RuntimeError("All test case results in the record is AC.",
-                           "But the accepted_flag is False!")
+        raise RuntimeError(
+            "No test case has been added or "
+            "every test case results is AC "
+            "but the result is not AC."
+        )
 
     def is_accepted(self) -> bool:
-        return self.accepted_flag
+        return bool(self.accepted_flag)
+
     is_accepted.admin_order_field = 'Accepted'
     is_accepted.boolean = True
     is_accepted.short_description = 'Is accepted'
